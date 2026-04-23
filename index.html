@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вариант 4 | Галерея цифрового искусства + Команда</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e8eefa 100%);
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* ГРАДИЕНТНЫЙ ЗАГОЛОВОК */
+        .gradient-title {
+            text-align: center;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
+            background: linear-gradient(135deg, #1e3c72, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #3b5998;
+            margin-bottom: 2rem;
+        }
+
+        /* СЕКЦИИ */
+        section {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #bfdbfe;
+        }
+
+        section h2 {
+            color: #1e40af;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            border-left: 4px solid #2563eb;
+            padding-left: 12px;
+        }
+
+        /* ===== 1. СЛАЙДЕР ИЗОБРАЖЕНИЙ (JS) ===== */
+        .slider-container {
+            text-align: center;
+        }
+        .slider-image {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 0 auto;
+            display: block;
+        }
+        .slider-buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .slider-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .slider-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== 2. ВИДЕО С КАСТОМНОЙ КНОПКОЙ (JS) ===== */
+        .custom-video-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .custom-video-wrapper video {
+            width: 100%;
+            border-radius: 20px;
+        }
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .video-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .video-btn:hover {
+            transform: scale(1.03);
+        }
+
+        /* ===== 3. ФОРМА С ВАЛИДАЦИЕЙ + ДИНАМИЧЕСКИЕ ПОЛЯ (JS) ===== */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 12px;
+            border: 1px solid #cbd5e1;
+        }
+        .dynamic-fields {
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 16px;
+        }
+        .dynamic-field-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .dynamic-field-row input {
+            flex: 1;
+        }
+        .add-field-btn, .submit-form-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+        }
+        .form-message.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .form-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ===== 4. КОМАНДА (ВСЕ В ЛИНИЮ, КРУГЛЫЕ АВАТАРЫ) ===== */
+        .team-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .member-card {
+            flex: 1;
+            min-width: 170px;
+            max-width: 200px;
+            background: white;
+            border-radius: 24px;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid #bfdbfe;
+        }
+        .member-card:hover {
+            transform: translateY(-5px);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+        .member-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .member-animal {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 4px 0;
+        }
+        .member-role {
+            font-size: 0.65rem;
+            color: #5b6e8c;
+        }
+        .modal-open-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 40px;
+            color: white;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+        }
+        .modal-open-btn:hover {
+            transform: scale(1.02);
+        }
+
+        /* ===== 5. СЧЁТЧИК КЛИКОВ ===== */
+        .counter-section {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 28px;
+            margin-bottom: 2rem;
+        }
+        .counter-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО (при загрузке сайта) ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            max-width: 350px;
+            text-align: center;
+        }
+        .modal-close {
+            background: #2563eb;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* МУЗЫКА */
+        .music-player {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .music-player audio {
+            border-radius: 40px;
+        }
+
+        /* КАСТОМНЫЙ СКРОЛЛБАР */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #5b6e8c;
+            border-top: 1px solid #cbd5e1;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="gradient-title">🎨 Галерея цифрового искусства</h1>
+    <p class="subtitle">Вариант 4 · Лабораторная работа · Все JS-элементы</p>
+
+    <!-- МУЗЫКА -->
+    <div class="music-player">
+        <audio id="bgMusic" controls loop>
+            <source src="https://cdn.pixabay.com/download/audio/2023/05/16/audio_0a8c5b3e2a.mp3?filename=funk-113013.mp3" type="audio/mpeg">
+        </audio>
+        <p style="font-size: 0.7rem;">🎧 Matadora · фонк</p>
+    </div>
+
+    <div class="grid-2col">
+        <!-- БЛОК 1: СЛАЙДЕР ИЗОБРАЖЕНИЙ (JS) -->
+        <section>
+            <h2>🖼️ Слайдер изображений</h2>
+            <div class="slider-container">
+                <img id="sliderImg" class="slider-image" src="https://picsum.photos/id/101/500/300" alt="Арт 1">
+                <div class="slider-buttons">
+                    <button class="slider-btn" id="prevSlide">◀ Назад</button>
+                    <button class="slider-btn" id="nextSlide">Вперёд ▶</button>
+                </div>
+                <p style="margin-top: 10px;">JavaScript-слайдер с массивом изображений</p>
+            </div>
+        </section>
+
+        <!-- БЛОК 2: ВИДЕО С КАСТОМНОЙ КНОПКОЙ (JS) -->
+        <section>
+            <h2>🎬 Видео с кастомным управлением</h2>
+            <div class="custom-video-wrapper">
+                <video id="customVideo">
+                    <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                </video>
+                <div class="video-controls">
+                    <button class="video-btn" id="playPauseBtn">▶ Воспроизвести</button>
+                    <button class="video-btn" id="stopVideoBtn">⏹️ Стоп</button>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.8rem;">Кастомная кнопка Play/Pause (без стандартных controls)</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- БЛОК 3: ФОРМА С ВАЛИДАЦИЕЙ + ДИНАМИЧЕСКИЕ ПОЛЯ (JS) -->
+    <section>
+        <h2>📝 Форма обратной связи</h2>
+        <form id="artForm">
+            <div class="form-group">
+                <label>Ваше имя *</label>
+                <input type="text" id="userName" required>
+            </div>
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="userEmail" required>
+            </div>
+            <div class="form-group">
+                <label>Любимый художник</label>
+                <input type="text" id="favoriteArtist">
+            </div>
+
+            <h3 style="font-size: 1rem; margin: 15px 0 10px;">➕ Дополнительные поля (динамические)</h3>
+            <div id="dynamicFieldsContainer" class="dynamic-fields">
+                <div class="dynamic-field-row">
+                    <input type="text" placeholder="Например: Instagram" class="dynamic-field">
+                </div>
+            </div>
+            <button type="button" class="add-field-btn" id="addFieldBtn">+ Добавить поле</button>
+            <button type="submit" class="submit-form-btn">✉️ Отправить</button>
+            <div id="formMessage" class="form-message" style="display: none;"></div>
+        </form>
+        <p style="margin-top: 10px; font-size: 0.75rem; color: #666;">* Валидация email + динамическое добавление полей (JS)</p>
+    </section>
+
+    <!-- КОМАНДА (КРУГЛЫЕ АВАТАРЫ) -->
+    <section>
+        <h2>👥 Наша команда</h2>
+        <div class="team-row" id="teamRow">
+            <div class="member-card" data-name="Митюков Кирилл" data-desc="✅ Разработал сайт с нуля. 🦁 Лев — лидер и сила.">
+                <div class="avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🦁</div>
+                <div class="member-name">Митюков Кирилл</div>
+                <div class="member-animal" style="background: #fef3c7; color: #b45309;">🦁 Лев</div>
+                <div class="member-role">✅ Разработал сайт</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Митюков Кирилл', '✅ Разработал данный сайт. 🦁 Лев — символ лидерства.')">О разработчике</button>
+            </div>
+            <div class="member-card" data-name="Валеев Рушан" data-desc="✅ Разработал сайт. 🐕 Собака — верность.">
+                <div class="avatar" style="background: linear-gradient(135deg, #10b981, #059669);">🐕</div>
+                <div class="member-name">Валеев Рушан</div>
+                <div class="member-animal" style="background: #d1fae5; color: #065f46;">🐕 Собака</div>
+                <div class="member-role">✅ Разработал сайт</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Валеев Рушан', '✅ Разработал сайт. 🐕 Собака — верность и упорство.')">О разработчике</button>
+            </div>
+            <div class="member-card" data-name="Шафиков Данил" data-desc="🤝 Помощник. 🦉 Сова — мудрость.">
+                <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🦉</div>
+                <div class="member-name">Шафиков Данил</div>
+                <div class="member-animal" style="background: #ede9fe; color: #5b21b6;">🦉 Сова</div>
+                <div class="member-role">🤝 Помощник</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Шафиков Данил', '🤝 Помощник команды. 🦉 Сова — внимательность.')">О разработчике</button>
+            </div>
+            <div class="member-card" data-name="Шамсутдинов Максим" data-desc="🤝 Помощник. 🦉 Сова — поддержка.">
+                <div class="avatar" style="background: linear-gradient(135deg, #a78bfa, #8b5cf6);">🦉</div>
+                <div class="member-name">Шамсутдинов Максим</div>
+                <div class="member-animal" style="background: #ede9fe; color: #5b21b6;">🦉 Сова</div>
+                <div class="member-role">🤝 Помощник</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Шамсутдинов Максим', '🤝 Помощник. 🦉 Сова — спокойствие.')">О разработчике</button>
+            </div>
+            <div class="member-card" data-name="Мурзагулов Тимур" data-desc="👑 ВЕЛИКИЙ ЧЕЛОВЕК! 🐓 Петух — смелость.">
+                <div class="avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🐓</div>
+                <div class="member-name">Мурзагулов Тимур</div>
+                <div class="member-animal" style="background: #fee2e2; color: #991b1b;">🐓 Петух</div>
+                <div class="member-role">👑 Великий человек</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Мурзагулов Тимур', '👑 ВЕЛИКИЙ ЧЕЛОВЕК! 🐓 Петух — гордость и смелость.')">О разработчике</button>
+            </div>
+            <div class="member-card" data-name="Салимов Даним" data-desc="💙 Уважаем и любим всем сердцем. 🐊 Крокодил — сила.">
+                <div class="avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a);">🐊</div>
+                <div class="member-name">Салимов Даним</div>
+                <div class="member-animal" style="background: #dcfce7; color: #166534;">🐊 Крокодил</div>
+                <div class="member-role">💙 Любим всем сердцем</div>
+                <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Салимов Даним', '💙 Уважаем и любим всем сердцем! 🐊 Крокодил — надёжность.')">О разработчике</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- СЧЁТЧИК КЛИКОВ -->
+    <div class="counter-section">
+        <h3>❤️ Поддержка проекта</h3>
+        <div class="counter-value" id="counterDisplay">0</div>
+        <button class="slider-btn" id="counterBtn">👍 Поддержать</button>
+    </div>
+
+    <footer>
+        🚀 Валеев и Митюков разработали данный сайт · Бело-синяя команда · Вариант 4 (все JS-элементы)<br>
+        Слайдер | Кастомное видео | Форма + валидация + динамические поля | Модальное окно при загрузке | Счётчик
+    </footer>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО ПРИ ЗАГРУЗКЕ САЙТА -->
+<div id="welcomeModal" class="modal-overlay" style="display: flex;">
+    <div class="modal-content">
+        <h3>🎨 Добро пожаловать!</h3>
+        <p>Не забудьте оценить нашу галерею цифрового искусства!<br><br>
+        🦁 🐕 🦉 🦉 🐓 🐊<br>
+        Команда проекта</p>
+        <button class="modal-close" onclick="closeWelcomeModal()">Начать просмотр</button>
+    </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ КОМАНДЫ -->
+<div id="teamModal" class="modal-overlay" onclick="closeTeamModalOnOverlay(event)">
+    <div class="modal-content">
+        <h3 id="teamModalName"></h3>
+        <p id="teamModalDesc"></p>
+        <button class="modal-close" onclick="closeTeamModal()">Закрыть</button>
+    </div>
+</div>
+
+<script>
+    // ========== 1. СЛАЙДЕР ИЗОБРАЖЕНИЙ ==========
+    const images = [
+        'https://picsum.photos/id/101/500/300',  // пейзаж
+        'https://picsum.photos/id/104/500/300',  // собака
+        'https://picsum.photos/id/107/500/300',  // трава
+        'https://picsum.photos/id/116/500/300',  // гора
+        'https://picsum.photos/id/20/500/300'     // кофе
+    ];
+    let currentIndex = 0;
+    const sliderImg = document.getElementById('sliderImg');
+    const prevBtn = document.getElementById('prevSlide');
+    const nextBtn = document.getElementById('nextSlide');
+
+    function updateSlider() {
+        sliderImg.src = images[currentIndex];
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateSlider();
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateSlider();
+    });
+
+    // ========== 2. ВИДЕО С КАСТОМНОЙ КНОПКОЙ ==========
+    const video = document.getElementById('customVideo');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const stopBtn = document.getElementById('stopVideoBtn');
+
+    // Убираем стандартные контролы
+    video.controls = false;
+
+    playPauseBtn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+            playPauseBtn.textContent = '⏸ Пауза';
+        } else {
+            video.pause();
+            playPauseBtn.textContent = '▶ Воспроизвести';
+        }
+    });
+
+    stopBtn.addEventListener('click', () => {
+        video.pause();
+        video.currentTime = 0;
+        playPauseBtn.textContent = '▶ Воспроизвести';
+    });
+
+    video.addEventListener('ended', () => {
+        playPauseBtn.textContent = '▶ Воспроизвести';
+    });
+
+    // ========== 3. ФОРМА + ДИНАМИЧЕСКИЕ ПОЛЯ + ВАЛИДАЦИЯ ==========
+    const addFieldBtn = document.getElementById('addFieldBtn');
+    const dynamicContainer = document.getElementById('dynamicFieldsContainer');
+    const form = document.getElementById('artForm');
+    const formMessage = document.getElementById('formMessage');
+
+    // Добавление динамического поля
+    addFieldBtn.addEventListener('click', () => {
+        const newRow = document.createElement('div');
+        newRow.className = 'dynamic-field-row';
+        newRow.innerHTML = '<input type="text" placeholder="Новое поле" class="dynamic-field">';
+        dynamicContainer.appendChild(newRow);
+    });
+
+    // Валидация email
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    // Обработка отправки формы
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('userName').value.trim();
+        const email = document.getElementById('userEmail').value.trim();
+        
+        if (!name) {
+            showFormMessage('Введите имя!', 'error');
+            return;
+        }
+        
+        if (!email) {
+            showFormMessage('Введите email!', 'error');
+            return;
+        }
+        
+        if (!validateEmail(email)) {
+            showFormMessage('Введите корректный email (пример: name@domain.ru)', 'error');
+            return;
+        }
+        
+        // Собираем динамические поля
+        const dynamicFields = [];
+        document.querySelectorAll('.dynamic-field').forEach((field, idx) => {
+            if (field.value.trim()) {
+                dynamicFields.push(`${field.placeholder || `Поле ${idx+1}`}: ${field.value}`);
+            }
+        });
+        
+        const message = `✅ Спасибо, ${name}!<br>📧 Email: ${email}<br>${dynamicFields.length ? '📝 Доп. инфо: ' + dynamicFields.join('; ') : ''}`;
+        showFormMessage(message, 'success');
+        form.reset();
+        
+        // Очищаем динамические поля (оставляем одно пустое)
+        dynamicContainer.innerHTML = '<div class="dynamic-field-row"><input type="text" placeholder="Например: Instagram" class="dynamic-field"></div>';
+    });
+
+    function showFormMessage(msg, type) {
+        formMessage.innerHTML = msg;
+        formMessage.className = `form-message ${type}`;
+        formMessage.style.display = 'block';
+        setTimeout(() => {
+            formMessage.style.display = 'none';
+        }, 4000);
+    }
+
+    // ========== 4. МОДАЛЬНОЕ ОКНО ПРИ ЗАГРУЗКЕ ==========
+    function closeWelcomeModal() {
+        document.getElementById('welcomeModal').style.display = 'none';
+    }
+
+    // ========== 5. МОДАЛЬНОЕ ОКНО ДЛЯ КОМАНДЫ ==========
+    const teamModal = document.getElementById('teamModal');
+    const teamModalName = document.getElementById('teamModalName');
+    const teamModalDesc = document.getElementById('teamModalDesc');
+
+    function showTeamModal(name, desc) {
+        teamModalName.textContent = name;
+        teamModalDesc.innerHTML = desc;
+        teamModal.style.display = 'flex';
+    }
+
+    function closeTeamModal() {
+        teamModal.style.display = 'none';
+    }
+
+    function closeTeamModalOnOverlay(event) {
+        if (event.target === teamModal) closeTeamModal();
+    }
+
+    // ========== 6. СЧЁТЧИК КЛИКОВ ==========
+    let counter = 0;
+    const counterDisplay = document.getElementById('counterDisplay');
+    const counterBtn = document.getElementById('counterBtn');
+
+    counterBtn.addEventListener('click', () => {
+        counter++;
+        counterDisplay.textContent = counter;
+        counterBtn.style.transform = 'scale(0.95)';
+        setTimeout(() => { counterBtn.style.transform = 'scale(1)'; }, 100);
+    });
+
+    // ========== 7. КАСТОМНЫЙ СКРОЛЛБАР (уже в CSS) ==========
+    // ========== 8. ГРАДИЕНТНЫЕ КНОПКИ (уже в CSS) ==========
+    
+    // Запуск музыки после клика (из-за политики браузера)
+    const bgMusic = document.getElementById('bgMusic');
+    let musicStarted = false;
+    document.body.addEventListener('click', () => {
+        if (!musicStarted && bgMusic.paused) {
+            bgMusic.play().catch(e => console.log('автоплей заблокирован'));
+            musicStarted = true;
+        }
+    }, { once: false });
+</script>
+</body>
+</html>

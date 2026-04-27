@@ -22,7 +22,6 @@
             margin: 0 auto;
         }
 
-        /* ГРАДИЕНТНЫЙ ЗАГОЛОВОК */
         .gradient-title {
             text-align: center;
             font-size: clamp(1.8rem, 6vw, 2.8rem);
@@ -38,7 +37,6 @@
             margin-bottom: 2rem;
         }
 
-        /* СЕКЦИИ */
         section {
             background: white;
             border-radius: 28px;
@@ -55,7 +53,6 @@
             padding-left: 12px;
         }
 
-        /* ===== 1. СЛАЙДЕР ИЗОБРАЖЕНИЙ (JS) ===== */
         .slider-container {
             text-align: center;
         }
@@ -87,35 +84,22 @@
             transform: scale(1.05);
         }
 
-        /* ===== 2. ВИДЕО С КАСТОМНОЙ КНОПКОЙ (JS) ===== */
-        .custom-video-wrapper {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .custom-video-wrapper video {
-            width: 100%;
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
             border-radius: 20px;
         }
-        .video-controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .video-btn {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
-            border: none;
-            padding: 8px 24px;
-            border-radius: 40px;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .video-btn:hover {
-            transform: scale(1.03);
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
         }
 
-        /* ===== 3. ФОРМА С ВАЛИДАЦИЕЙ + ДИНАМИЧЕСКИЕ ПОЛЯ (JS) ===== */
         .form-group {
             margin-bottom: 15px;
         }
@@ -125,7 +109,7 @@
             font-weight: 600;
             color: #1e293b;
         }
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 10px;
             border-radius: 12px;
@@ -169,7 +153,6 @@
             color: #991b1b;
         }
 
-        /* ===== 4. КОМАНДА (ВСЕ В ЛИНИЮ, КРУГЛЫЕ АВАТАРЫ) ===== */
         .team-row {
             display: flex;
             flex-wrap: wrap;
@@ -233,7 +216,6 @@
             transform: scale(1.02);
         }
 
-        /* ===== 5. СЧЁТЧИК КЛИКОВ ===== */
         .counter-section {
             text-align: center;
             padding: 1.5rem;
@@ -247,7 +229,6 @@
             color: #2563eb;
         }
 
-        /* ===== МОДАЛЬНОЕ ОКНО (при загрузке сайта) ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -277,16 +258,6 @@
             margin-top: 1rem;
         }
 
-        /* МУЗЫКА */
-        .music-player {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        .music-player audio {
-            border-radius: 40px;
-        }
-
-        /* КАСТОМНЫЙ СКРОЛЛБАР */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 10px; }
@@ -310,45 +281,35 @@
     <h1 class="gradient-title">🎨 Галерея цифрового искусства</h1>
     <p class="subtitle">Вариант 4 · Лабораторная работа · Все JS-элементы</p>
 
-    <!-- МУЗЫКА -->
-    <div class="music-player">
-        <audio id="bgMusic" controls loop>
-            <source src="https://cdn.pixabay.com/download/audio/2023/05/16/audio_0a8c5b3e2a.mp3?filename=funk-113013.mp3" type="audio/mpeg">
-        </audio>
-        <p style="font-size: 0.7rem;">🎧 Matadora · фонк</p>
-    </div>
-
     <div class="grid-2col">
-        <!-- БЛОК 1: СЛАЙДЕР ИЗОБРАЖЕНИЙ (JS) -->
         <section>
             <h2>🖼️ Слайдер изображений</h2>
             <div class="slider-container">
-                <img id="sliderImg" class="slider-image" src="https://picsum.photos/id/101/500/300" alt="Арт 1">
+                <img id="sliderImg" class="slider-image" src="https://img.freepik.com/premium-psd/serene-river-winding-through-lush-forest_957244-30087.jpg?semt=ais_hybrid&w=740" alt="Арт 1">
                 <div class="slider-buttons">
                     <button class="slider-btn" id="prevSlide">◀ Назад</button>
                     <button class="slider-btn" id="nextSlide">Вперёд ▶</button>
                 </div>
-                <p style="margin-top: 10px;">JavaScript-слайдер с массивом изображений</p>
+                <p style="margin-top: 10px;">JavaScript-слайдер с изображениями природы</p>
             </div>
         </section>
 
-        <!-- БЛОК 2: ВИДЕО С КАСТОМНОЙ КНОПКОЙ (JS) -->
         <section>
-            <h2>🎬 Видео с кастомным управлением</h2>
-            <div class="custom-video-wrapper">
-                <video id="customVideo">
-                    <source src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-                </video>
-                <div class="video-controls">
-                    <button class="video-btn" id="playPauseBtn">▶ Воспроизвести</button>
-                    <button class="video-btn" id="stopVideoBtn">⏹️ Стоп</button>
-                </div>
-                <p style="margin-top: 10px; font-size: 0.8rem;">Кастомная кнопка Play/Pause (без стандартных controls)</p>
+            <h2>🎬 Видео с YouTube</h2>
+            <div class="video-wrapper">
+                <iframe 
+                    src="https://www.youtube.com/embed/MN3qyg1t0Os" 
+                    title="Most Beautiful Buildings" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+                </iframe>
             </div>
+            <p style="margin-top: 10px; font-size: 0.8rem; text-align: center;">Невероятные здания мира · Most Beautiful Buildings</p>
         </section>
     </div>
 
-    <!-- БЛОК 3: ФОРМА С ВАЛИДАЦИЕЙ + ДИНАМИЧЕСКИЕ ПОЛЯ (JS) -->
     <section>
         <h2>📝 Форма обратной связи</h2>
         <form id="artForm">
@@ -365,7 +326,7 @@
                 <input type="text" id="favoriteArtist">
             </div>
 
-            <h3 style="font-size: 1rem; margin: 15px 0 10px;">➕ Дополнительные поля (динамические)</h3>
+            <h3 style="font-size: 1rem; margin: 15px 0 10px;">➕ Дополнительные поля</h3>
             <div id="dynamicFieldsContainer" class="dynamic-fields">
                 <div class="dynamic-field-row">
                     <input type="text" placeholder="Например: Instagram" class="dynamic-field">
@@ -378,46 +339,45 @@
         <p style="margin-top: 10px; font-size: 0.75rem; color: #666;">* Валидация email + динамическое добавление полей (JS)</p>
     </section>
 
-    <!-- КОМАНДА (КРУГЛЫЕ АВАТАРЫ) -->
     <section>
         <h2>👥 Наша команда</h2>
-        <div class="team-row" id="teamRow">
-            <div class="member-card" data-name="Митюков Кирилл" data-desc="✅ Разработал сайт с нуля. 🦁 Лев — лидер и сила.">
+        <div class="team-row">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🦁</div>
                 <div class="member-name">Митюков Кирилл</div>
                 <div class="member-animal" style="background: #fef3c7; color: #b45309;">🦁 Лев</div>
                 <div class="member-role">✅ Разработал сайт</div>
                 <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Митюков Кирилл', '✅ Разработал данный сайт. 🦁 Лев — символ лидерства.')">О разработчике</button>
             </div>
-            <div class="member-card" data-name="Валеев Рушан" data-desc="✅ Разработал сайт. 🐕 Собака — верность.">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #10b981, #059669);">🐕</div>
                 <div class="member-name">Валеев Рушан</div>
                 <div class="member-animal" style="background: #d1fae5; color: #065f46;">🐕 Собака</div>
                 <div class="member-role">✅ Разработал сайт</div>
                 <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Валеев Рушан', '✅ Разработал сайт. 🐕 Собака — верность и упорство.')">О разработчике</button>
             </div>
-            <div class="member-card" data-name="Шафиков Данил" data-desc="🤝 Помощник. 🦉 Сова — мудрость.">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed);">🦉</div>
                 <div class="member-name">Шафиков Данил</div>
                 <div class="member-animal" style="background: #ede9fe; color: #5b21b6;">🦉 Сова</div>
                 <div class="member-role">🤝 Помощник</div>
                 <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Шафиков Данил', '🤝 Помощник команды. 🦉 Сова — внимательность.')">О разработчике</button>
             </div>
-            <div class="member-card" data-name="Шамсутдинов Максим" data-desc="🤝 Помощник. 🦉 Сова — поддержка.">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #a78bfa, #8b5cf6);">🦉</div>
                 <div class="member-name">Шамсутдинов Максим</div>
                 <div class="member-animal" style="background: #ede9fe; color: #5b21b6;">🦉 Сова</div>
                 <div class="member-role">🤝 Помощник</div>
                 <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Шамсутдинов Максим', '🤝 Помощник. 🦉 Сова — спокойствие.')">О разработчике</button>
             </div>
-            <div class="member-card" data-name="Мурзагулов Тимур" data-desc="👑 ВЕЛИКИЙ ЧЕЛОВЕК! 🐓 Петух — смелость.">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🐓</div>
                 <div class="member-name">Мурзагулов Тимур</div>
                 <div class="member-animal" style="background: #fee2e2; color: #991b1b;">🐓 Петух</div>
                 <div class="member-role">👑 Великий человек</div>
                 <button class="modal-open-btn" onclick="event.stopPropagation(); showTeamModal('Мурзагулов Тимур', '👑 ВЕЛИКИЙ ЧЕЛОВЕК! 🐓 Петух — гордость и смелость.')">О разработчике</button>
             </div>
-            <div class="member-card" data-name="Салимов Даним" data-desc="💙 Уважаем и любим всем сердцем. 🐊 Крокодил — сила.">
+            <div class="member-card">
                 <div class="avatar" style="background: linear-gradient(135deg, #22c55e, #16a34a);">🐊</div>
                 <div class="member-name">Салимов Даним</div>
                 <div class="member-animal" style="background: #dcfce7; color: #166534;">🐊 Крокодил</div>
@@ -427,7 +387,6 @@
         </div>
     </section>
 
-    <!-- СЧЁТЧИК КЛИКОВ -->
     <div class="counter-section">
         <h3>❤️ Поддержка проекта</h3>
         <div class="counter-value" id="counterDisplay">0</div>
@@ -435,12 +394,11 @@
     </div>
 
     <footer>
-        🚀 Валеев и Митюков разработали данный сайт · Бело-синяя команда · Вариант 4 (все JS-элементы)<br>
-        Слайдер | Кастомное видео | Форма + валидация + динамические поля | Модальное окно при загрузке | Счётчик
+        🚀 Валеев и Митюков разработали данный сайт · Бело-синяя команда · Вариант 4<br>
+        Слайдер | YouTube видео | Форма + валидация + динамические поля | Модальное окно | Счётчик
     </footer>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ПРИ ЗАГРУЗКЕ САЙТА -->
 <div id="welcomeModal" class="modal-overlay" style="display: flex;">
     <div class="modal-content">
         <h3>🎨 Добро пожаловать!</h3>
@@ -451,7 +409,6 @@
     </div>
 </div>
 
-<!-- МОДАЛЬНОЕ ОКНО ДЛЯ КОМАНДЫ -->
 <div id="teamModal" class="modal-overlay" onclick="closeTeamModalOnOverlay(event)">
     <div class="modal-content">
         <h3 id="teamModalName"></h3>
@@ -461,13 +418,11 @@
 </div>
 
 <script>
-    // ========== 1. СЛАЙДЕР ИЗОБРАЖЕНИЙ ==========
     const images = [
-        'https://picsum.photos/id/101/500/300',  // пейзаж
-        'https://picsum.photos/id/104/500/300',  // собака
-        'https://picsum.photos/id/107/500/300',  // трава
-        'https://picsum.photos/id/116/500/300',  // гора
-        'https://picsum.photos/id/20/500/300'     // кофе
+        'https://img.freepik.com/premium-psd/serene-river-winding-through-lush-forest_957244-30087.jpg?semt=ais_hybrid&w=740',
+        'https://i.pinimg.com/originals/bc/20/e5/bc20e56f4efd466b13bdd3ae5c8b5bb0.jpg?nii=t',
+        'https://img.freepik.com/premium-photo/turquoise-lake-coast-rocks-grass-forest-swiss-alps-mountains_343289-177.jpg?semt=ais_hybrid&w=740',
+        'https://img.freepik.com/premium-photo/scenic-view-lake-by-trees-against-sky_1048944-10872690.jpg?semt=ais_hybrid'
     ];
     let currentIndex = 0;
     const sliderImg = document.getElementById('sliderImg');
@@ -488,41 +443,11 @@
         updateSlider();
     });
 
-    // ========== 2. ВИДЕО С КАСТОМНОЙ КНОПКОЙ ==========
-    const video = document.getElementById('customVideo');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const stopBtn = document.getElementById('stopVideoBtn');
-
-    // Убираем стандартные контролы
-    video.controls = false;
-
-    playPauseBtn.addEventListener('click', () => {
-        if (video.paused) {
-            video.play();
-            playPauseBtn.textContent = '⏸ Пауза';
-        } else {
-            video.pause();
-            playPauseBtn.textContent = '▶ Воспроизвести';
-        }
-    });
-
-    stopBtn.addEventListener('click', () => {
-        video.pause();
-        video.currentTime = 0;
-        playPauseBtn.textContent = '▶ Воспроизвести';
-    });
-
-    video.addEventListener('ended', () => {
-        playPauseBtn.textContent = '▶ Воспроизвести';
-    });
-
-    // ========== 3. ФОРМА + ДИНАМИЧЕСКИЕ ПОЛЯ + ВАЛИДАЦИЯ ==========
     const addFieldBtn = document.getElementById('addFieldBtn');
     const dynamicContainer = document.getElementById('dynamicFieldsContainer');
     const form = document.getElementById('artForm');
     const formMessage = document.getElementById('formMessage');
 
-    // Добавление динамического поля
     addFieldBtn.addEventListener('click', () => {
         const newRow = document.createElement('div');
         newRow.className = 'dynamic-field-row';
@@ -530,13 +455,11 @@
         dynamicContainer.appendChild(newRow);
     });
 
-    // Валидация email
     function validateEmail(email) {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(email);
     }
 
-    // Обработка отправки формы
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -558,7 +481,6 @@
             return;
         }
         
-        // Собираем динамические поля
         const dynamicFields = [];
         document.querySelectorAll('.dynamic-field').forEach((field, idx) => {
             if (field.value.trim()) {
@@ -570,7 +492,6 @@
         showFormMessage(message, 'success');
         form.reset();
         
-        // Очищаем динамические поля (оставляем одно пустое)
         dynamicContainer.innerHTML = '<div class="dynamic-field-row"><input type="text" placeholder="Например: Instagram" class="dynamic-field"></div>';
     });
 
@@ -583,12 +504,10 @@
         }, 4000);
     }
 
-    // ========== 4. МОДАЛЬНОЕ ОКНО ПРИ ЗАГРУЗКЕ ==========
     function closeWelcomeModal() {
         document.getElementById('welcomeModal').style.display = 'none';
     }
 
-    // ========== 5. МОДАЛЬНОЕ ОКНО ДЛЯ КОМАНДЫ ==========
     const teamModal = document.getElementById('teamModal');
     const teamModalName = document.getElementById('teamModalName');
     const teamModalDesc = document.getElementById('teamModalDesc');
@@ -607,7 +526,6 @@
         if (event.target === teamModal) closeTeamModal();
     }
 
-    // ========== 6. СЧЁТЧИК КЛИКОВ ==========
     let counter = 0;
     const counterDisplay = document.getElementById('counterDisplay');
     const counterBtn = document.getElementById('counterBtn');
@@ -619,18 +537,12 @@
         setTimeout(() => { counterBtn.style.transform = 'scale(1)'; }, 100);
     });
 
-    // ========== 7. КАСТОМНЫЙ СКРОЛЛБАР (уже в CSS) ==========
-    // ========== 8. ГРАДИЕНТНЫЕ КНОПКИ (уже в CSS) ==========
-    
-    // Запуск музыки после клика (из-за политики браузера)
-    const bgMusic = document.getElementById('bgMusic');
-    let musicStarted = false;
-    document.body.addEventListener('click', () => {
-        if (!musicStarted && bgMusic.paused) {
-            bgMusic.play().catch(e => console.log('автоплей заблокирован'));
-            musicStarted = true;
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (welcomeModal.style.display === 'flex') closeWelcomeModal();
+            if (teamModal.style.display === 'flex') closeTeamModal();
         }
-    }, { once: false });
+    });
 </script>
 </body>
 </html>
